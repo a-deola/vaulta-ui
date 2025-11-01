@@ -46,8 +46,8 @@ export function HeroCarousel() {
       <CarouselContent>
         {carouselData.map((data, index) => (
           <CarouselItem key={index}>
-            <div className="flex flex-col-reverse md:flex-row px-10">
-              <div className="flex flex-col w-full gap-5  pt-10">
+            <div className="flex flex-col-reverse md:flex-row">
+              <div className="col-flex gap-5  pt-10">
                 <h2>{data.header}</h2>
                 <p className="line-clamp-3 max-w-md tracking-wide font-medium text-md">
                   {data.text}
