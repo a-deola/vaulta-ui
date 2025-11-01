@@ -9,6 +9,7 @@ import { Button } from "../ui/button";
 import { carouselData } from "@/data/carouselData";
 import { useState, useEffect } from "react";
 import Autoplay from "embla-carousel-autoplay";
+import { Link } from "react-router-dom";
 
 export interface CarouselProps {
   header: string;
@@ -45,19 +46,23 @@ export function HeroCarousel() {
       <CarouselContent>
         {carouselData.map((data, index) => (
           <CarouselItem key={index}>
-            <div className="flex px-10">
+            <div className="flex flex-col-reverse md:flex-row px-10">
               <div className="flex flex-col w-full gap-5  pt-10">
                 <h2>{data.header}</h2>
                 <p className="line-clamp-3 max-w-md tracking-wide font-medium text-md">
                   {data.text}
                 </p>
                 <div className="flex gap-5">
-                  <Button>Create Account</Button>
-                  <Button>Log in</Button>
+                  <Button>
+                    <Link to="/">Create Account</Link>{" "}
+                  </Button>
+                  <Button>
+                    <Link to="/login">Login</Link>{" "}
+                  </Button>
                 </div>
               </div>
-              <div className="hidden md:flex md:justify-center">
-                <img src={data.image} alt="login-image" />
+              <div className="flex justify-center ">
+                <img src={data.image} alt="login-image" className="w-[70%] lg:w-full" />
               </div>
             </div>
           </CarouselItem>
@@ -68,5 +73,5 @@ export function HeroCarousel() {
         <CarouselNext className="static translate-y-0" />
       </div>
     </Carousel>
-  )
+  );
 }

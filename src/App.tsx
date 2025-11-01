@@ -1,13 +1,14 @@
 import './App.css'
-import HeroSection from './components/sections/HeroSection'
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
 
-function App() {
-
+export default function App() {
   return (
-    <>
-      <HeroSection />
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  );
 }
 
-export default App
