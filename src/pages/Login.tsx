@@ -1,10 +1,11 @@
 import { LoginForm } from "@/components/shared/LoginForm";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import FormContainer from "@/components/custom/FormContainer";
 
 export default function Login() {
   return (
-    <div className="flex justify-between w-full mt-2">
+    <FormContainer image ="/login-woman.png" alt= "login-image">
       <div className="flex flex-col gap-2 w-full md:w-1/2">
         <h3>Log in to your account</h3>
         <p className="text-xs">Welcome back! Please enter your details</p>
@@ -20,10 +21,6 @@ export default function Login() {
           </Link>
         </div>
       </div>
-
-      <div className="hidden md:flex w-2/5">
-        <img src="/login-woman.png" alt="login-image" />
-      </div>
-    </div>
+   </FormContainer>
   );
 }

@@ -5,7 +5,7 @@ type LayoutProps = { children: ReactNode };
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="px-10 pt-10">
+    <div className="px-10 pt-8">
       <Navbar />
       <div className="absolute top-0 right-0 overflow-hidden pointer-events-none">
         <svg
