@@ -50,7 +50,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #EF491F;
+  --primary: #ef491f;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -121,10 +121,13 @@
   h2 {
     @apply text-4xl font-bold;
   }
-  h3{
-    @apply text-xl font-medium
+  h3 {
+    @apply text-xl font-medium;
   }
-}
-.col-flex {
-  @apply flex flex-col w-full;
+  .col-flex {
+    @apply flex flex-col w-full;
+  }
+  .form-div {
+    @apply flex flex-col gap-2 w-full lg:w-1/2;
+  }
 }

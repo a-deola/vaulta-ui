@@ -1,9 +1,9 @@
-import { type ReactNode } from "react";
+
 import Navbar from "./custom/Navbar";
+import { Outlet } from "react-router-dom";
 
-type LayoutProps = { children: ReactNode };
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout() {
   return (
     <div className="px-10 pt-8">
       <Navbar />
@@ -21,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
         </svg>
       </div>
 
-      <div className="relative z-10">{children}</div>
+      <div className="relative z-10"><Outlet/></div>
     </div>
   );
 }
