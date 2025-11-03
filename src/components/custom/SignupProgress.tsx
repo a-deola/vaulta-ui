@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { type RootState } from "@/app/store";
 
 export function SignupProgress() {
-  const step = useSelector((state: RootState) => state.signup.step);
+  const step = useSelector((state: RootState) => state.step.step);
   const totalSteps = 2;
   return (
     <div className="flex items-center justify-center gap-3">

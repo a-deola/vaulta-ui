@@ -1,17 +1,17 @@
 
 import { createSlice, type PayloadAction,  } from "@reduxjs/toolkit";
 
-interface SignupState {
+interface StepState {
   step: number;
 }
 
-const initialState: SignupState = {
+const initialState: StepState = {
   step: 1,
 };
 
 
-export const signupSlice = createSlice({
-  name: "signup",
+export const stepSlice = createSlice({
+  name: "step",
   initialState,
   reducers: {
     setStep: (state, action: PayloadAction<number>) => {
@@ -26,5 +26,5 @@ export const signupSlice = createSlice({
   },
 });
 
-export const { setStep, nextStep, prevStep } = signupSlice.actions;
-export default signupSlice.reducer;
+export const { setStep, nextStep, prevStep } = stepSlice.actions;
+export default stepSlice.reducer;

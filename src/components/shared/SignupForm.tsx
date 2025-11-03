@@ -13,10 +13,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useSelector, useDispatch } from "react-redux";
-import { type RootState } from "@/app/store";
-import { nextStep, prevStep } from "@/features/signupSlice";
+import { type RootState, type AppDispatch } from "@/app/store";
+import { nextStep, prevStep } from "@/features/stepSlice";
 import { MoveLeft } from "lucide-react";
 import FormHeading from "../custom/FormHeading";
+import { signupUser, type User } from "@/features/userSlice";
 
 const step1Schema = z.object({
   firstName: z.string().min(3, { message: "Name must be  3 characters long" }),
@@ -46,21 +47,14 @@ const step2Schema = z
   });
 
 export function SignupForm() {
-  const { step } = useSelector(
-    (state: RootState) => state.signup
-  );
-  const dispatch = useDispatch();
+  const { step } = useSelector((state: RootState) => state.step);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleNext = () => {
-    if (step < 2) {
-      dispatch(nextStep());
-      return;
-    }
-  };
-  const schema = step === 1 ? step1Schema : step2Schema;
+ const currentSchema = step === 1 ? step1Schema : step2Schema;
+
 
   const form = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(currentSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -69,6 +63,15 @@ export function SignupForm() {
       confirmPassword: "",
     },
   });
+
+  const handleNext = () => {
+    if (step < 2) {
+      dispatch(nextStep());
+    } else {
+      const data = form.getValues()
+      dispatch(signupUser(data as User));
+    }
+  };
 
   return (
     <Form {...form}>
@@ -84,7 +87,7 @@ export function SignupForm() {
             : "Welcome! Please enter your details"
         }
       />
-      <form className="space-y-6 py-4">
+      <form onSubmit={form.handleSubmit(handleNext)} className="space-y-6 py-4">
         {step === 1 && (
           <>
             <div className="flex gap-4 w-full">
@@ -178,11 +181,7 @@ export function SignupForm() {
             </Button>
           )}
 
-          <Button
-            className="flex-1"
-            type="button"
-            onClick={() => form.handleSubmit(handleNext)()}
-          >
+          <Button onClick={() => console.log("clicked")} className="flex-1" type="submit">
             {step < 2 ? "Continue" : "Submit"}
           </Button>
         </div>

@@ -54,7 +54,7 @@ export function HeroCarousel() {
                 </p>
                 <div className="flex gap-5">
                   <Button>
-                    <Link to="/">Create Account</Link>{" "}
+                    <Link to="/signup">Create Account</Link>{" "}
                   </Button>
                   <Button>
                     <Link to="/login">Login</Link>{" "}
