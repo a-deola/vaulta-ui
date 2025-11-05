@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { submitLogIn } from "@/lib/api";
+import { loginUser } from "@/features/userSlice";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/app/store";
+import { useNavigate } from "react-router-dom";
 
 const loginSchema = z.object({
   email: z.email(),
@@ -34,6 +37,9 @@ const loginSchema = z.object({
 });
 
 export function LoginForm() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -42,9 +48,21 @@ export function LoginForm() {
     },
   });
 
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = async (
+    data
+  ) => {
+    console.log("login form submitted");
+    const result = await dispatch(loginUser(data));
+    if (loginUser.fulfilled.match(result)) {
+      navigate("/dashboard");
+    } else {
+      console.error("Login failed:", result);
+    }
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitLogIn)} className="space-y-6 py-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
         <FormField
           control={form.control}
           name="email"

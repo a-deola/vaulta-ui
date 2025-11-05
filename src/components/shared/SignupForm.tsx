@@ -18,6 +18,8 @@ import { nextStep, prevStep } from "@/features/stepSlice";
 import { MoveLeft } from "lucide-react";
 import FormHeading from "../custom/FormHeading";
 import { signupUser, type User } from "@/features/userSlice";
+import { useNavigate } from "react-router-dom";
+
 
 const step1Schema = z.object({
   firstName: z.string().min(3, { message: "Name must be  3 characters long" }),
@@ -49,9 +51,10 @@ const step2Schema = z
 export function SignupForm() {
   const { step } = useSelector((state: RootState) => state.step);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
- const currentSchema = step === 1 ? step1Schema : step2Schema;
-
+  const currentSchema = step === 1 ? step1Schema : step2Schema;
+  const {loading, user, error} = useSelector((state: RootState) => state.user);
 
   const form = useForm({
     resolver: zodResolver(currentSchema),
@@ -64,12 +67,15 @@ export function SignupForm() {
     },
   });
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < 2) {
       dispatch(nextStep());
     } else {
-      const data = form.getValues()
-      dispatch(signupUser(data as User));
+      const data = form.getValues();
+      const result = await dispatch(signupUser(data as User));
+      if (signupUser.fulfilled.match(result)) {
+        navigate("/login");
+      }
     }
   };
 
@@ -86,7 +92,7 @@ export function SignupForm() {
               }). Please click the link to verify your identity.`
             : "Welcome! Please enter your details"
         }
-      />
+      />{error && <p>{error}</p>}
       <form onSubmit={form.handleSubmit(handleNext)} className="space-y-6 py-4">
         {step === 1 && (
           <>
@@ -181,7 +187,12 @@ export function SignupForm() {
             </Button>
           )}
 
-          <Button onClick={() => console.log("clicked")} className="flex-1" type="submit">
+          <Button
+            onClick={() => console.log("clicked")}
+            className="flex-1"
+            type="submit"
+            disabled={loading}
+          >
             {step < 2 ? "Continue" : "Submit"}
           </Button>
         </div>
